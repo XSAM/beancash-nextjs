@@ -13,7 +13,8 @@ export default class _Document extends Document {
 
   render() {
     return (
-      <Html lang='en' dir='ltr'>
+      // @ts-ignore
+      <Html lang='en' dir='ltr' mode="ios">
         <Head>
           <title>{APP_DEFAULT_TITLE}</title>
           <meta charSet='utf-8' />

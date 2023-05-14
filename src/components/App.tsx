@@ -10,10 +10,10 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import { ellipse, square, receipt, fileTray } from 'ionicons/icons'
+import TransactionTab from './pages/TransactionTab';
+import AccountTab from './pages/AccountTab';
+import SettingTab from './pages/SettingTab';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,31 +38,31 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
+          <Route exact path="/transaction">
+            <TransactionTab />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/account">
+            <AccountTab />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/setting">
+            <SettingTab />
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <Redirect to="/transaction" />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
+          <IonTabButton tab="tab1" href="/transaction">
+            <IonIcon aria-hidden="true" icon={receipt} />
+            <IonLabel>Transaction</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="tab2" href="/account">
+            <IonIcon aria-hidden="true" icon={fileTray} />
+            <IonLabel>Account</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
+          <IonTabButton tab="tab3" href="/setting">
             <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+            <IonLabel>Setting</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
