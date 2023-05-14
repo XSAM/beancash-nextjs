@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonNav,
+  IonRoute,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -31,6 +32,7 @@ import '@ionic/react/css/text-alignment.css'
 import '@ionic/react/css/text-transformation.css'
 import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
+import Example from '@/components/pages/example'
 
 setupIonicReact()
 
@@ -42,9 +44,8 @@ const App: React.FC = () => (
           <Route exact path="/transaction">
             <IonNav root={() => <TransactionTab />}></IonNav>
           </Route>
-          <Route exact path="/account">
-            <IonNav root={() => <AccountTab />}></IonNav>
-          </Route>
+          <Route exact path="/account" component={AccountTab} />
+          <Route path="/account/:id" component={Example} />
           <Route path="/setting">
             <SettingTab />
           </Route>

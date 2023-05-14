@@ -11,16 +11,33 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
+  IonModal,
   IonNavLink,
   IonPage,
+  IonRouterOutlet,
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
 import ImportAccounts from '@/components/pages/account/ImportAccounts'
+import { useRef } from 'react'
+import { OverlayEventDetail } from '@ionic/core'
+import Example from '@/components/pages/example'
+import { Route } from 'react-router-dom'
+import { IonRouter } from '@ionic/core/components/ion-router'
 
 const AccountTab = () => {
+  const modal = useRef<HTMLIonModalElement>(null)
+
+  function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
+    if (ev.detail.role === 'confirm') {
+      // setMessage(`Hello, ${ev.detail.data}!`);
+    }
+  }
+  console.log('test 2')
+
   return (
     <IonPage>
+      <IonRouterOutlet></IonRouterOutlet>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Account</IonTitle>
@@ -49,16 +66,22 @@ const AccountTab = () => {
           ></IonActionSheet>
 
           <IonButtons slot="end">
-            <IonNavLink
-              routerDirection="forward"
-              component={() => <ImportAccounts />}
-            >
-              <IonButton>Import</IonButton>
-            </IonNavLink>
+            <IonButton id="open-import-modal">Import</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonModal
+          ref={modal}
+          trigger="open-import-modal"
+          onWillDismiss={(ev) => onWillDismiss(ev)}
+        >
+          <ImportAccounts
+            onDismiss={() => {
+              modal.current?.dismiss()
+            }}
+          />
+        </IonModal>
         {/*<div*/}
         {/*  style={{*/}
         {/*    display: 'flex',*/}
@@ -75,7 +98,7 @@ const AccountTab = () => {
           </IonItemDivider>
 
           <IonItemSliding>
-            <IonItem>
+            <IonItem routerLink={'/account/test'}>
               <IonLabel>Sliding Item with End Options</IonLabel>
             </IonItem>
 
