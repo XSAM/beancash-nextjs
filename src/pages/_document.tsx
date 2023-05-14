@@ -35,7 +35,7 @@ export default class _Document extends Document {
           <meta name='theme-color' content='#18181b' media='(prefers-color-scheme: dark)' />
           <meta name='mobile-web-app-capable' content='yes' />
           <meta name='apple-mobile-web-app-capable' content='yes' />
-          <meta name='apple-mobile-web-app-title' content='Cats Realm' />
+          <meta name='apple-mobile-web-app-title' content={APP_DEFAULT_TITLE} />
           <meta name='application-name' content={APP_NAME} />
           <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
           {/* ICONS */}
