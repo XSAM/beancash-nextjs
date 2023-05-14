@@ -46,3 +46,24 @@ yarn build && yarn start
 ```
 
 The iOS devices won't accept the PWA installation if the app is not served over HTTPS.
+
+### Routing
+
+Cannot simply use `IonReactRouter` because it doesn't work with `next-pwa`.
+The page routed by `IonReactRouter` won't be cached. But using `next/router` will cause the page to be reloaded thus missing transitions when the user navigates to the page.
+
+I use fallback page to mitigate this issue. The fallback page contains the whole app page.
+Offline page will be loaded to Browser's cache after the first request with network. So please request any single page after clean the cache.
+
+See `src/pages/_offline.tsx` for more details.
+
+### Page cache
+
+Clear PWA page cache by clear the CacheStorage of browser.
+
+```js
+caches.keys().then(function(names) {
+    for (let name of names)
+        caches.delete(name);
+});
+```
