@@ -10,9 +10,13 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
-import React from 'react'
+import React, { useContext } from 'react'
+import * as Database from '../../database/Database'
+import { useDB } from '@/components/database/Database'
 
 const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
+  const db = useDB()
+
   return (
     <>
       <IonHeader>
@@ -23,8 +27,15 @@ const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
           </IonButtons>
           <IonButtons slot="end">
             <IonButton
-              onClick={() => {
+              onClick={async () => {
                 // TODO: parse and save accounts
+
+                // const db = await Database.get()
+
+                await db?.accounts.upsert({
+                  name: 'Assets:Cash',
+                  category: 'Assets',
+                })
 
                 onDismiss()
               }}

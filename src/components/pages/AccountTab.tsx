@@ -33,7 +33,6 @@ const AccountTab = () => {
       // setMessage(`Hello, ${ev.detail.data}!`);
     }
   }
-  console.log('test 2')
 
   return (
     <IonPage>
