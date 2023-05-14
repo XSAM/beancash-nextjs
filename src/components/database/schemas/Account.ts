@@ -35,7 +35,10 @@ export type AccountDocType = ExtractDocumentTypeFromTypedRxJsonSchema<
 // create the typed RxJsonSchema from the literal typed object.
 export const accountSchema: RxJsonSchema<AccountDocType> = accountLiteral
 
-export type AccountDocument = RxDocument<AccountDocType>
+export type AccountDocument = RxDocument<
+  AccountDocType,
+  AccountCollectionMethods
+>
 
 // we declare one static ORM-method for the collection
 export type AccountCollectionMethods = {

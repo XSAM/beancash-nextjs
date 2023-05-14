@@ -1,4 +1,5 @@
 import {
+  ActionSheetButton,
   IonActionSheet,
   IonButton,
   IonButtons,
@@ -19,19 +20,61 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import ImportAccounts from '@/components/pages/account/ImportAccounts'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core'
 import Example from '@/components/pages/example'
 import { Route } from 'react-router-dom'
 import { IonRouter } from '@ionic/core/components/ion-router'
+import { AccountDocument } from '@/components/database/schemas/Account'
+import { useDB } from '@/components/database/Database'
 
 const AccountTab = () => {
+  const db = useDB()
   const modal = useRef<HTMLIonModalElement>(null)
+  const [accounts, setAccounts] = useState<AccountDocument[]>([])
 
-  function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
-    if (ev.detail.role === 'confirm') {
-      // setMessage(`Hello, ${ev.detail.data}!`);
-    }
+  const accountCategories = [
+    'Assets',
+    'Equity',
+    'Expenses',
+    'Income',
+    'Liabilities',
+  ]
+
+  useEffect(() => {
+    db?.accounts
+      .find({
+        sort: [{ name: 'asc' }],
+      })
+      .$.subscribe((accounts) => {
+        setAccounts(accounts)
+      })
+  }, [db])
+
+  const categoryItemsGroup = (category: string) => {
+    return (
+      <IonItemGroup key={category}>
+        <IonItemDivider>
+          <IonLabel>{category}</IonLabel>
+        </IonItemDivider>
+
+        {accounts
+          .filter((x) => x.category === category)
+          .map((x) => {
+            return (
+              <IonItemSliding key={x.name}>
+                <IonItem routerLink={'/account/test'}>
+                  <IonLabel>{x.name}</IonLabel>
+                </IonItem>
+
+                <IonItemOptions>
+                  <IonItemOption color="danger">Delete</IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
+            )
+          })}
+      </IonItemGroup>
+    )
   }
 
   return (
@@ -45,23 +88,48 @@ const AccountTab = () => {
           </IonButtons>
           <IonActionSheet
             trigger="open-clear-sheet"
-            header="Actions"
-            buttons={[
-              {
-                text: 'Delete All',
-                role: 'destructive',
-                data: {
-                  action: 'delete',
+            header="Clear Accounts"
+            buttons={accountCategories
+              .map((x) => {
+                return {
+                  text: x,
+                  role: 'destructive',
+                  data: {
+                    action: 'delete',
+                    category: x,
+                  },
+                } as ActionSheetButton
+              })
+              .concat([
+                {
+                  text: 'Delete All',
+                  role: 'destructive',
+                  data: {
+                    action: 'delete',
+                  },
                 },
-              },
-              {
-                text: 'Cancel',
-                role: 'cancel',
-                data: {
-                  action: 'cancel',
+                {
+                  text: 'Cancel',
+                  role: 'cancel',
+                  data: {
+                    action: 'cancel',
+                  },
                 },
-              },
-            ]}
+              ])}
+            onWillDismiss={(e) => {
+              if (e.detail.data === undefined) {
+                return
+              }
+              if (e.detail.data.action === 'delete') {
+                if (e.detail.data.category !== undefined) {
+                  db?.accounts
+                    .find({ selector: { category: e.detail.data.category } })
+                    .remove()
+                } else {
+                  db?.accounts.find().remove()
+                }
+              }
+            }}
           ></IonActionSheet>
 
           <IonButtons slot="end">
@@ -70,65 +138,15 @@ const AccountTab = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonModal
-          ref={modal}
-          trigger="open-import-modal"
-          onWillDismiss={(ev) => onWillDismiss(ev)}
-        >
+        <IonModal ref={modal} trigger="open-import-modal">
           <ImportAccounts
             onDismiss={() => {
               modal.current?.dismiss()
             }}
           />
         </IonModal>
-        {/*<div*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    alignItems: 'center',*/}
-        {/*    justifyContent: 'center',*/}
-        {/*    height: '100%'*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Listen now content*/}
-        {/*</div>*/}
-        <IonItemGroup>
-          <IonItemDivider>
-            <IonLabel>Assets</IonLabel>
-          </IonItemDivider>
 
-          <IonItemSliding>
-            <IonItem routerLink={'/account/test'}>
-              <IonLabel>Sliding Item with End Options</IonLabel>
-            </IonItem>
-
-            <IonItemOptions>
-              <IonItemOption>Favorite</IonItemOption>
-              <IonItemOption color="danger">Delete</IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-          <IonItem>
-            <IonLabel>Argentina</IonLabel>
-          </IonItem>
-          <IonItem lines="none">
-            <IonLabel>Armenia</IonLabel>
-          </IonItem>
-        </IonItemGroup>
-
-        <IonItemGroup>
-          <IonItemDivider>
-            <IonLabel>Equity</IonLabel>
-          </IonItemDivider>
-
-          <IonItem>
-            <IonLabel>Bangladesh</IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Belarus</IonLabel>
-          </IonItem>
-          <IonItem lines="none">
-            <IonLabel>Belgium</IonLabel>
-          </IonItem>
-        </IonItemGroup>
+        {accountCategories.map(categoryItemsGroup)}
       </IonContent>
     </IonPage>
   )

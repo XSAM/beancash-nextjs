@@ -10,12 +10,14 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
-import React, { useContext } from 'react'
-import * as Database from '../../database/Database'
+import React, { useRef } from 'react'
 import { useDB } from '@/components/database/Database'
+import { AccountDocument } from '@/components/database/schemas/Account'
 
 const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
   const db = useDB()
+
+  const input = useRef<HTMLIonTextareaElement>(null)
 
   return (
     <>
@@ -28,14 +30,11 @@ const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
           <IonButtons slot="end">
             <IonButton
               onClick={async () => {
-                // TODO: parse and save accounts
-
-                // const db = await Database.get()
-
-                await db?.accounts.upsert({
-                  name: 'Assets:Cash',
-                  category: 'Assets',
-                })
+                const value = input.current?.value || ''
+                if (value !== '') {
+                  const accounts = parseAccountsText(value)
+                  await db?.accounts.bulkUpsert(accounts)
+                }
 
                 onDismiss()
               }}
@@ -49,6 +48,7 @@ const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
         <IonTextarea
           // labelPlacement="floating"
           // label="Accounts"
+          ref={input}
           placeholder="2020-01-01 open Assets:Cash"
           helperText="It only process `open` directive."
           autoGrow={true}
@@ -59,3 +59,25 @@ const ImportAccounts = ({ onDismiss }: { onDismiss: () => void }) => {
 }
 
 export default ImportAccounts
+
+const parseAccountsText = (text: string) => {
+  return text
+    .split('\n')
+    .map(parseAccountLine)
+    .filter((x): x is AccountDocument => x !== null)
+}
+
+const parseAccountLine = (line: string) => {
+  const slice = line.split(' ')
+  if (slice.length < 3) {
+    return null
+  }
+  if (slice[1] !== 'open') {
+    return null
+  }
+
+  return {
+    name: slice[2],
+    category: slice[2].split(':')[0],
+  } as AccountDocument
+}
