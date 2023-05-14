@@ -1,23 +1,64 @@
 import {
+  IonActionSheet,
+  IonButton,
+  IonButtons,
   IonContent,
-  IonHeader, IonItem,
+  IonHeader,
+  IonItem,
   IonItemDivider,
-  IonItemGroup, IonItemOption, IonItemOptions, IonItemSliding,
+  IonItemGroup,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
   IonLabel,
+  IonNavLink,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/react'
+import ImportAccounts from '@/components/pages/account/ImportAccounts'
 
 const AccountTab = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+          <IonTitle>Account</IonTitle>
+          <IonButtons id="open-clear-sheet" slot="start">
+            <IonButton>Clear</IonButton>
+          </IonButtons>
+          <IonActionSheet
+            trigger="open-clear-sheet"
+            header="Actions"
+            buttons={[
+              {
+                text: 'Delete All',
+                role: 'destructive',
+                data: {
+                  action: 'delete',
+                },
+              },
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                data: {
+                  action: 'cancel',
+                },
+              },
+            ]}
+          ></IonActionSheet>
+
+          <IonButtons slot="end">
+            <IonNavLink
+              routerDirection="forward"
+              component={() => <ImportAccounts />}
+            >
+              <IonButton>Import</IonButton>
+            </IonNavLink>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent >
+      <IonContent>
         {/*<div*/}
         {/*  style={{*/}
         {/*    display: 'flex',*/}
