@@ -1,17 +1,39 @@
 import {
   IonButton,
-  IonContent, IonFab, IonFabButton, IonFabList,
-  IonHeader, IonIcon,
-  IonItem, IonItemOption, IonItemOptions,
-  IonItemSliding, IonLabel,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
+  IonLabel,
   IonList,
+  IonModal,
+  IonNav,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/react'
 import { chevronUpCircle, colorPalette, document, globe } from 'ionicons/icons'
+import ImportAccounts from '@/components/pages/account/ImportAccounts'
+import React, { useCallback, useRef, useState } from 'react'
+import CreateTransaction from '@/components/pages/transaction/CreateTransaction'
 
 const TransactionTab = () => {
+  const modal = useRef<HTMLIonModalElement>(null)
+  const modalRoot = useCallback(
+    () => <CreateTransaction
+      onDismiss={() => {
+        modal.current?.dismiss()
+      }}
+    />,
+    []
+  );
+
   return (
     <IonPage>
       <IonHeader>
@@ -19,7 +41,15 @@ const TransactionTab = () => {
           <IonTitle>Tab 1</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent >
+      <IonContent>
+        <IonModal ref={modal} trigger="open-create-modal" >
+          {/*<IonNav root={modalRoot} />*/}
+          <CreateTransaction
+            onDismiss={() => {
+              modal.current?.dismiss()
+            }}
+          />
+        </IonModal>
 
         <IonButton>Default</IonButton>
         <IonList>
@@ -65,7 +95,7 @@ const TransactionTab = () => {
             <IonIcon icon={chevronUpCircle}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
-            <IonFabButton>
+            <IonFabButton id="open-create-modal">
               <IonIcon icon={document}></IonIcon>
             </IonFabButton>
             <IonFabButton>

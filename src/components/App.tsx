@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonNav,
+  IonPage,
   IonRoute,
   IonRouterOutlet,
   IonTabBar,
@@ -36,31 +37,29 @@ import Example from '@/components/pages/example'
 
 setupIonicReact()
 
-const App: React.FC = () => (
+const App = () => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/transaction">
-            <IonNav root={() => <TransactionTab />}></IonNav>
-          </Route>
+          <Redirect path="/" to="/transaction"/>
+
+          <Route exact path="/transaction" component={TransactionTab} />
+
           <Route exact path="/account" component={AccountTab} />
-          <Route path="/account/:id" component={Example} />
-          <Route path="/setting">
-            <SettingTab />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/transaction" />
-          </Route>
+          <Route exact path="/account/:id" component={Example} />
+          <Route exact path="/accountPicker" component={Example} />
+
+          <Route exact path="/setting" component={SettingTab} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/transaction">
-            <IonIcon aria-hidden="true" icon={receipt} />
-            <IonLabel>Transaction</IonLabel>
-          </IonTabButton>
           <IonTabButton tab="tab2" href="/account">
             <IonIcon aria-hidden="true" icon={fileTray} />
             <IonLabel>Account</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab1" href="/transaction">
+            <IonIcon aria-hidden="true" icon={receipt} />
+            <IonLabel>Transaction</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/setting">
             <IonIcon aria-hidden="true" icon={square} />

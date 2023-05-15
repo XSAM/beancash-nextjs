@@ -7,10 +7,10 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonModal,
+  IonModal, IonNavLink,
   IonPage,
   IonTitle,
-  IonToolbar,
+  IonToolbar
 } from '@ionic/react'
 import React, { useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core'
@@ -23,6 +23,13 @@ const Example = () => {
           <IonButtons slot="start">
             <IonBackButton></IonBackButton>
           </IonButtons>
+
+          <IonButtons slot="start">
+            <IonNavLink routerDirection="back">
+              <IonButton>Pop</IonButton>
+            </IonNavLink>
+          </IonButtons>
+
           <IonTitle>Example</IonTitle>
         </IonToolbar>
       </IonHeader>

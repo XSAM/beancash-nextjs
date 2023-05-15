@@ -20,7 +20,7 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import ImportAccounts from '@/components/pages/account/ImportAccounts'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core'
 import Example from '@/components/pages/example'
 import { Route } from 'react-router-dom'
@@ -79,7 +79,6 @@ const AccountTab = () => {
 
   return (
     <IonPage>
-      <IonRouterOutlet></IonRouterOutlet>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Account</IonTitle>

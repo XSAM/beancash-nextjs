@@ -1,4 +1,11 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react'
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react'
 
 const SettingTab = () => {
   return (
@@ -8,12 +15,12 @@ const SettingTab = () => {
           <IonTitle>Setting</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent >
-
+      <IonContent>
         <IonButton>Templates</IonButton>
+        <IonButton>Currencies</IonButton>
       </IonContent>
     </IonPage>
   )
 }
 
-export default SettingTab;
+export default SettingTab
