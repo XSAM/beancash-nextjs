@@ -24,11 +24,11 @@ const Example = () => {
             <IonBackButton></IonBackButton>
           </IonButtons>
 
-          <IonButtons slot="start">
-            <IonNavLink routerDirection="back">
-              <IonButton>Pop</IonButton>
-            </IonNavLink>
-          </IonButtons>
+          {/*<IonButtons slot="start">*/}
+          {/*  <IonNavLink routerDirection="back">*/}
+          {/*    <IonButton>Pop</IonButton>*/}
+          {/*  </IonNavLink>*/}
+          {/*</IonButtons>*/}
 
           <IonTitle>Example</IonTitle>
         </IonToolbar>

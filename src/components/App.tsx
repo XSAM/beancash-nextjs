@@ -53,13 +53,13 @@ const App = () => (
           <Route exact path="/setting" component={SettingTab} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab2" href="/account">
-            <IonIcon aria-hidden="true" icon={fileTray} />
-            <IonLabel>Account</IonLabel>
-          </IonTabButton>
           <IonTabButton tab="tab1" href="/transaction">
             <IonIcon aria-hidden="true" icon={receipt} />
             <IonLabel>Transaction</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab2" href="/account">
+            <IonIcon aria-hidden="true" icon={fileTray} />
+            <IonLabel>Account</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/setting">
             <IonIcon aria-hidden="true" icon={square} />

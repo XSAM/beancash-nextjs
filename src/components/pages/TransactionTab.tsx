@@ -1,5 +1,5 @@
 import {
-  IonButton,
+  IonButton, IonButtons,
   IonContent,
   IonFab,
   IonFabButton,
@@ -16,7 +16,7 @@ import {
   IonNav,
   IonPage,
   IonTitle,
-  IonToolbar,
+  IonToolbar
 } from '@ionic/react'
 import { chevronUpCircle, colorPalette, document, globe } from 'ionicons/icons'
 import ImportAccounts from '@/components/pages/account/ImportAccounts'
@@ -43,7 +43,11 @@ const TransactionTab = () => {
       </IonHeader>
       <IonContent>
         <IonModal ref={modal} trigger="open-create-modal" >
-          {/*<IonNav root={modalRoot} />*/}
+          {/*<IonNav root={() => <CreateTransaction*/}
+          {/*  onDismiss={() => {*/}
+          {/*    modal.current?.dismiss()*/}
+          {/*  }}*/}
+          {/*/>} />*/}
           <CreateTransaction
             onDismiss={() => {
               modal.current?.dismiss()

@@ -67,3 +67,9 @@ caches.keys().then(function(names) {
         caches.delete(name);
 });
 ```
+
+## Ionic
+
+DO NOT use `IonPage` on modal page, it will mess up the tab transition. The `ion-page-hidden` class of tab which opened the modal will be wrong.
+
+Ionic nav feature is not going to work on Tabs or Modal page. It will mess `ion-page-hidden` class.
